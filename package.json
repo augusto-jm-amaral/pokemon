@@ -2,10 +2,18 @@
   "name": "pokemon",
   "version": "0.0.1",
   "description": "It's a pokemon API.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "NODE_ENV=development nodemon server.js",
+    "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*_spec.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "@Augusto",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^1.26.1",
+    "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
 }
