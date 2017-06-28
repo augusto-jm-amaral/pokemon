@@ -10,11 +10,13 @@
     "test:integration:watch": "NODE_ENV=test mocha --watch --opts test/integration/mocha.opts test/integration/**/*.spec.js"
   },
   "author": "@Augusto",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chai-http": "^3.0.0",
     "config": "^1.26.1",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "sequelize": "^4.2.0",
+    "sqlite3": "^3.1.8"
   },
   "devDependencies": {
     "chai": "^4.0.2",

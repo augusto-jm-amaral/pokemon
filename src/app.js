@@ -1,9 +1,9 @@
 'use strict'
 
 const express = require('express'),
-      path    = require('path')
-
-const app = express()
+      path    = require('path'),
+      app     = express(),
+      models  = require('./models')
 
 require('./middlewares')(app)
 
