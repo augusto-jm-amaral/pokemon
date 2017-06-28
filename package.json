@@ -5,15 +5,21 @@
   "main": "server.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon server.js",
-    "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*_spec.js"
+    "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*_spec.js",
+    "test:integration": "NODE_ENV=test mocha --opts test/integration/mocha.opts test/integration/**/*.spec.js",
+    "test:integration:watch": "NODE_ENV=test mocha --watch --opts test/integration/mocha.opts test/integration/**/*.spec.js"
   },
   "author": "@Augusto",
   "license": "ISC",
   "dependencies": {
+    "chai-http": "^3.0.0",
     "config": "^1.26.1",
     "express": "^4.15.3"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0"
   }
 }
