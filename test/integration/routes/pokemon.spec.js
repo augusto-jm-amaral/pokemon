@@ -1,6 +1,5 @@
 describe('Routes: Pokemon', () => {
-
-  const pokemon = {
+  const defaultPokemon = {
     name: 'Omastar',
     price: '70',
     stock: '9999'

@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon server.js",
-    "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/**/*_spec.js",
+    "test:unit": "NODE_ENV=test mocha --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
+    "test:unit:watch": "NODE_ENV=test mocha --watch --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
     "test:integration": "NODE_ENV=test mocha --opts test/integration/mocha.opts test/integration/**/*.spec.js",
     "test:integration:watch": "NODE_ENV=test mocha --watch --opts test/integration/mocha.opts test/integration/**/*.spec.js"
   },
@@ -26,6 +27,7 @@
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
     "nodemon": "^1.11.0",
+    "sinon": "^2.3.6",
     "supertest": "^3.0.0"
   }
 }

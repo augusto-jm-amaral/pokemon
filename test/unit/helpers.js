@@ -1,5 +1,8 @@
 'use strict'
 
-import chai from 'chai';
+const chai  = require('chai'),
+      sinon = require('sinon')
 
-global.expect = chai.expect;
+global.sinon = sinon
+
+chai.should()

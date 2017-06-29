@@ -1,5 +1,7 @@
 'use strict'
 
+console.log('teste')
+
 const fs           = require('fs'),
       path         = require('path'),
       Sequelize    = require('sequelize'),
