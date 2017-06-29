@@ -6,18 +6,17 @@ function PokemonController ({ pokemon }) {
   
   this.Pokemon = pokemon
 
-  this.getAll = async (req, res, next) => {
+  this.getAll = async (req, res) => {
 
     try {
       
       const pokemons = await this.Pokemon.findAll()
       
-      // res.json(pokemons)
-      next(new Error(erros.INTERNAL_SERVER_ERROR))
+      res.json(pokemons)
 
     } catch(err) {
 
-      next(new Error(erros.INTERNAL_SERVER_ERROR))
+      res.status(500).json(erros.INTERNAL_SERVER_ERROR)
 
     }
   }

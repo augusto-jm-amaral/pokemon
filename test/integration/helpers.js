@@ -2,8 +2,10 @@
 
 const supertest = require('supertest'),
       chai      = require('chai'),
-      app       = require('../../src/app.js')
+      app       = require('../../src/app.js'),
+      models    = require('../../src/models')
 
-// global.app     = app
+global.models = models
 global.request = supertest(app)
+
 chai.should()

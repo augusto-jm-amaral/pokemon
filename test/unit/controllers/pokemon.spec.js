@@ -1,6 +1,7 @@
 'use strict'
 
-const PokemonController = require('../../../src/controllers/pokemon')
+const PokemonController = require('../../../src/controllers/pokemon'),
+      errors = require('../../../src/errors.json')
 
 describe('Controllers: Pokemon', async () => {
   
@@ -33,20 +34,24 @@ describe('Controllers: Pokemon', async () => {
 
     })
 
-    // it('should return status 500 when error occurs', async () => {
+    it('should return status 500 when error occurs', async () => {
 
-    //   let next = sinon.spy()
+      const request = {}
+      const response = {
+        status: sinon.stub(),
+        json: sinon.spy()
+      }
 
-    //   // response.status.withArgs(500).returns(response)
-    //   database.pokemon.findAll = sinon.stub()
-    //   database.pokemon.findAll.withArgs().rejects({message: 'Error'})
+      response.status.withArgs(500).returns(response)
+      database.pokemon.findAll = sinon.stub()
+      database.pokemon.findAll.withArgs().rejects({message: 'Error'})
 
-    //   const pokemonController = new PokemonController(database)
-    //   await pokemonController.getAll(request, response)
+      const pokemonController = new PokemonController(database)
+      await pokemonController.getAll(request, response)
 
-    //   // sinon.assert.calledWith(response.json, 'Error')
-    //   sinon.assert.calledWith(response.status, 500)
+      sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER_ERROR)
+      sinon.assert.calledWith(response.status, 500)
 
-    // })
+    })
   })
 })
