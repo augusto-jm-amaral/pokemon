@@ -25,4 +25,4 @@ fs.readdirSync(path.join(__dirname)).forEach((filename) => {
 
 db.sync()
 
-module.exports.sequelize = db
+module.exports.database = db

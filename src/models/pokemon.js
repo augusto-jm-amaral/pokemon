@@ -4,11 +4,13 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define('pokemon', {
       uuid: {
         type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
       price: {
         type: DataTypes.INTEGER,

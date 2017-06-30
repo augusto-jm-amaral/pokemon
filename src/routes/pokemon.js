@@ -6,6 +6,7 @@ const { Router }        = require('express'),
       pokemonController = new PokemonController(db),
       router            = Router()
 
-router.get('/', pokemonController.getAll.bind(pokemonController))
+router.get('/', pokemonController.getAll)
+      .post('/', pokemonController.create)
 
 module.exports = router
