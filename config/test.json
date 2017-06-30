@@ -7,5 +7,8 @@
     "options": {
       "dialect": "sqlite"
     }
+  },
+  "log": {
+    "path": "/logs"
   }
 }
