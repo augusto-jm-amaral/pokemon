@@ -2,12 +2,11 @@
 
 const { Router }        = require('express'),
       db                = require('./../models'),
-      PokemonController = require('./../controllers/pokemon.js'),
-      pokemonController = new PokemonController(db),
+      pokemonCtrl       = require('./../controllers/pokemon.js'),
       router            = Router()
 
-router.get('/', pokemonController.getAll.bind(pokemonController))
-      .post('/', pokemonController.create.bind(pokemonController))
-      .post('/buy', pokemonController.buy.bind(pokemonController))
+router.get('/', pokemonCtrl.getAll.bind(pokemonCtrl))
+      .post('/', pokemonCtrl.create.bind(pokemonCtrl))
+      .post('/buy', pokemonCtrl.buy.bind(pokemonCtrl))
 
 module.exports = router

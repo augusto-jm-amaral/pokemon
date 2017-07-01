@@ -1,18 +1,13 @@
 'use strict'
 
-const erros   = require('../errors.json'),
-      logger  = require('../libs/logger.js'),
-      to      = require('../libs/to.js'),
-      pagarme = require('../libs/pagarme.js')
+const erros                 = require('./../errors.json'),
+      logger                = require('./../libs/logger.js'),
+      to                    = require('./../libs/to.js'),
+      pagarme               = require('./../libs/pagarme.js'),
+      { pokemon, database}  = require('./../models'),
+      Pokemon               = pokemon
 
-class PokemonController {
-
-  constructor ({ pokemon, database }) {
-    this.Pokemon = pokemon
-    this.db = database
-  }
-
-  async getAll (req, res) {
+const getAll = async function(req, res) {
     const [err, pokemons] = await to(this.Pokemon.findAll())
 
     if(pokemons) 
@@ -22,7 +17,7 @@ class PokemonController {
     res.status(500).json(erros.INTERNAL_SERVER_ERROR)
   }
 
-  async create (req, res) {
+const create = async function(req, res) {
     const [err, pokemon] = await to(this.Pokemon.create(req.body))
 
     if(pokemon)
@@ -32,7 +27,7 @@ class PokemonController {
     res.status(500).json(erros.INTERNAL_SERVER_ERROR)
   }
 
-  async buy (req, res) {
+const buy = async function(req, res) {
     const [errFind, pokemon] = await to(this.Pokemon.findOne({ 
       where: { uuid: req.body.pokemonUUID } 
     }))
@@ -48,7 +43,7 @@ class PokemonController {
     if(pokemon.stock < req.body.quantity)
       return res.status(400) 
 
-    const [errTra, transaction] = await to(this.db.transaction())
+    const [errTra, transaction] = await to(this.database.transaction())
     
     if(errTra) {
       logger.error(errTra) 
@@ -101,6 +96,13 @@ class PokemonController {
       res.status(400).json({err: true})
     }
   }
-}
 
-module.exports = PokemonController
+// module.exports = () =>
+
+module.exports = {
+  Pokemon,
+  database,
+  getAll,
+  create,
+  buy
+}

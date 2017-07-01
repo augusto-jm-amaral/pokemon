@@ -14,7 +14,9 @@ const loggerFactory = (_conf, _logdir) => {
     
     return new (winston.Logger)({
       transports: [
-        new (winston.transports.Console)(),
+        new (winston.transports.Console)({
+          colorize: true
+        }),
         new (winston.transports.File)({
           name: 'info-file',
           filename: path.join(_logdir, 'info.log'),

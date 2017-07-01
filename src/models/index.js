@@ -1,12 +1,16 @@
 'use strict'
 
-const fs             = require('fs'),
-      path           = require('path'),
-      Sequelize      = require('sequelize'),
-      conf           = require('./../config')
+const fs        = require('fs'),
+      path      = require('path'),
+      Sequelize = require('sequelize'),
+      conf      = require('./../config'),
+      logger    = require('./../libs/logger.js')
 
 const options = {
-  dialect: conf.get('DB_DIALECT')
+  dialect: conf.get('DB_DIALECT'),
+  logging: (log) => {
+    logger.info(log)
+  }
 }
 
 const db = new Sequelize( 

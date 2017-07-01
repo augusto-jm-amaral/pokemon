@@ -73,8 +73,6 @@ describe('Routes: Pokemon', async () => {
       const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
 
       res.status.should.be.equal(200)
-
-      console.log(res.body)
     })
   })
 })

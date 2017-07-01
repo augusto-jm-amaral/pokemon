@@ -1,7 +1,7 @@
 'use strict'
 
-const PokemonController = require('../../../src/controllers/pokemon'),
-      errors = require('../../../src/errors.json')
+const errors      = require('../../../src/errors.json')
+let   pokemonCtrl = require('../../../src/controllers/pokemon')
 
 describe('Controllers: Pokemon', async () => {
   
@@ -10,10 +10,6 @@ describe('Controllers: Pokemon', async () => {
       price: '70',
       stock: '9999'
     }]
-
-  let database = {
-    pokemon: {}
-  }
 
   describe('getAll() pokemons', async () => {
 
@@ -24,11 +20,10 @@ describe('Controllers: Pokemon', async () => {
         json: sinon.spy()
       }
 
-      database.pokemon.findAll = sinon.stub()
-      database.pokemon.findAll.withArgs().resolves(defaultPokemonList)
+      pokemonCtrl.Pokemon.findAll = sinon.stub()
+      pokemonCtrl.Pokemon.findAll.withArgs().resolves(defaultPokemonList)
 
-      const pokemonController = new PokemonController(database)
-      await pokemonController.getAll(request, response)
+      await pokemonCtrl.getAll(request, response)
 
       sinon.assert.calledWith(response.json, defaultPokemonList)
 
@@ -43,11 +38,10 @@ describe('Controllers: Pokemon', async () => {
       }
 
       response.status.withArgs(500).returns(response)
-      database.pokemon.findAll = sinon.stub()
-      database.pokemon.findAll.withArgs().rejects({message: 'Error'})
+      pokemonCtrl.Pokemon.findAll = sinon.stub()
+      pokemonCtrl.Pokemon.findAll.withArgs().rejects({message: 'Error'})
 
-      const pokemonController = new PokemonController(database)
-      await pokemonController.getAll(request, response)
+      await pokemonCtrl.getAll(request, response)
 
       sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER_ERROR)
       sinon.assert.calledWith(response.status, 500)
@@ -66,11 +60,10 @@ describe('Controllers: Pokemon', async () => {
         json: sinon.spy()
       }
 
-      database.pokemon.create = sinon.stub()
-      database.pokemon.create.withArgs(pokemonModel).resolves({dataValues: pokemonModel})
+      pokemonCtrl.Pokemon.create = sinon.stub()
+      pokemonCtrl.Pokemon.create.withArgs(pokemonModel).resolves({dataValues: pokemonModel})
 
-      const pokemonController = new PokemonController(database)
-      await pokemonController.create(request, response)
+      await pokemonCtrl.create(request, response)
 
       sinon.assert.calledWith(response.json, pokemonModel)
 
@@ -88,11 +81,10 @@ describe('Controllers: Pokemon', async () => {
       }
 
       response.status.withArgs(500).returns(response)
-      database.pokemon.create = sinon.stub()
-      database.pokemon.create.withArgs(pokemonModel).rejects({message: 'Error'})
+      pokemonCtrl.Pokemon.create = sinon.stub()
+      pokemonCtrl.Pokemon.create.withArgs(pokemonModel).rejects({message: 'Error'})
 
-      const pokemonController = new PokemonController(database)
-      await pokemonController.create(request, response)
+      await pokemonCtrl.create(request, response)
 
       sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER_ERROR)
       sinon.assert.calledWith(response.status, 500)
