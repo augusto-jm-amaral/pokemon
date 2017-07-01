@@ -1,6 +1,6 @@
 'use strict'
 
-const config      = require('config'),
+const conf        = require('./../config'),
       bodyParser  = require('body-parser'),
       cors        = require('cors'),
       helmet      = require('helmet'),
@@ -10,7 +10,7 @@ const config      = require('config'),
 
 module.exports = (app) => {
 
-  app.set('port', config.port)
+  app.set('port', conf.get('PORT'))
 
   app.use(morgan('combined', {'stream': logger.stream}))
   app.use(cors())

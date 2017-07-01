@@ -3,37 +3,44 @@
 const winston       = require('winston'),
       fs            = require('fs'),
       path          = require('path'),
-      winstonRotate = require('winston-daily-rotate-file'),
-      { log }       = require('config')
+      conf          = require('./../config')
 
-winston.emitErrs = true
-
-const logPath  = path.join(path.dirname(require.main.filename), log.path),
-      format = () => (new Date()).toLocaleTimeString()
-
-fs.existsSync(logPath) || fs.mkdirSync(logPath)
-
-const logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.Console)({
-      timestamp: format,
-      colorize: true,
-      level: 'info'
-    }),
-    new (winstonRotate)({
-      filename: path.join(logPath, '.log'),
-      timestamp: format,
-      datePattern: 'dd-MM-yyyy',
-      prepend: true,
-      level: 'info'
+const loggerFactory = (_conf, _logdir) => {
+  
+  winston.emitErrs = true
+  
+  if(_conf.isProd(_conf)){
+    fs.existsSync(_logdir) || fs.mkdirSync(_logdir)
+    
+    return new (winston.Logger)({
+      transports: [
+        new (winston.transports.Console)(),
+        new (winston.transports.File)({
+          name: 'info-file',
+          filename: path.join(_logdir, 'info.log'),
+          level: 'info'
+        }),
+        new (winston.transports.File)({
+          name: 'error-file',
+          filename: path.join(_logdir, 'error.log'),
+          level: 'error'
+        })
+      ]
     })
-  ],
-  exitOnError: false
-});
+  } else {
+    return new (winston.Logger)({
+      transports: [
+        new (winston.transports.Console)()
+      ]
+    })
+  }
+}
+
+const logger = loggerFactory(conf, conf.get('LOG_DIR'))
 
 module.exports = logger
 module.exports.stream = {
     write: (message, encoding) => {
         logger.info(message)
     }
-};
+}

@@ -1,14 +1,19 @@
 'use strict'
 
-const fs           = require('fs'),
-      path         = require('path'),
-      Sequelize    = require('sequelize'),
-      { database } = require('config')
+const fs             = require('fs'),
+      path           = require('path'),
+      Sequelize      = require('sequelize'),
+      conf           = require('./../config')
 
-const db = new Sequelize( database.name, 
-  database.username, 
-  database.password, 
-  database.options)
+const options = {
+  dialect: conf.get('DB_DIALECT')
+}
+
+const db = new Sequelize( 
+  conf.get('DB_NAME'), 
+  conf.get('DB_USER'), 
+  conf.get('DB_PASS'),
+  options)
 
 fs.readdirSync(path.join(__dirname)).forEach((filename) => {
 

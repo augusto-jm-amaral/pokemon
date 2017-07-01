@@ -4,7 +4,7 @@ const express = require('express'),
       path    = require('path'),
       app     = express(),
       errors  = require('./errors.json'),
-      logger = require('./libs/logger.js')
+      logger  = require('./libs/logger.js')
 
 require('./middlewares')(app)
 require('./routes')(app)

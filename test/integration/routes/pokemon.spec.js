@@ -56,7 +56,8 @@ describe('Routes: Pokemon', async () => {
     let pokemonUUID;
 
     before(async () => {
-      pokemonUUID = (await Pokemon.create(defaultPokemonList[0])).dataValues.uuid
+      const pokemon = await Pokemon.create(defaultPokemonList[0])
+      pokemonUUID = pokemon.dataValues.uuid
     })
   
     it('should to buy a pokemon', async () => {
@@ -67,9 +68,13 @@ describe('Routes: Pokemon', async () => {
         cvv: "123"
       }
 
-      const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card})
+      const quantity = 3
+
+      const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
 
       res.status.should.be.equal(200)
+
+      console.log(res.body)
     })
   })
 })
