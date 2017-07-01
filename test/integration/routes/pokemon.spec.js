@@ -6,7 +6,7 @@ describe('Routes: Pokemon', async () => {
   const defaultPokemonList = [{
       name: 'Omastar',
       price: 70,
-      stock: 9999
+      stock: 5
     }]
 
   const uri = '/pokemons'
@@ -55,7 +55,7 @@ describe('Routes: Pokemon', async () => {
 
     let pokemonUUID;
 
-    before(async () => {
+    beforeEach(async () => {
       const pokemon = await Pokemon.create(defaultPokemonList[0])
       pokemonUUID = pokemon.dataValues.uuid
     })
@@ -73,6 +73,22 @@ describe('Routes: Pokemon', async () => {
       const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
 
       res.status.should.be.equal(200)
+    })
+
+    it('should not buy more pokemon than in stock', async () => {
+      const card = {
+        number: "4024007138010896",
+        expiration_date: "1050",
+        holder_name: "Ash Ketchum",
+        cvv: "123"
+      }
+
+      const quantity = 9
+
+      const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
+
+      res.status.should.be.equal(errors.OUT_STOCK.status)
+      res.body.message.should.be.equal(errors.OUT_STOCK.message)
     })
   })
 })

@@ -6,7 +6,8 @@ const conf        = require('./../config'),
       helmet      = require('helmet'),
       compression = require('compression'),
       morgan      = require('morgan'),
-      logger      = require('./../libs/logger.js')
+      logger      = require('./../libs/logger.js'),
+      validator   = require('express-validator')
 
 module.exports = (app) => {
 
@@ -17,5 +18,6 @@ module.exports = (app) => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(helmet())
+  app.use(validator())
   app.use(compression())
 }
