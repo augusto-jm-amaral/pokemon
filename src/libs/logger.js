@@ -19,12 +19,12 @@ const loggerFactory = (_conf, _logdir) => {
         }),
         new (winston.transports.File)({
           name: 'info-file',
-          filename: path.join(_logdir, 'info.log'),
+          filename: path.join(_logdir, 'pokeapi_info.log'),
           level: 'info'
         }),
         new (winston.transports.File)({
           name: 'error-file',
-          filename: path.join(_logdir, 'error.log'),
+          filename: path.join(_logdir, 'pokeapi_error.log'),
           level: 'error'
         })
       ]
