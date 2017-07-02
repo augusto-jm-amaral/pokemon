@@ -35,5 +35,10 @@ const isProd = (conf) => {
   return conf.get('NODE_ENV') === 'PROD'
 }
 
+const isTest = (conf) => {
+  return conf.get('NODE_ENV') === 'TEST'
+}
+
 module.exports = nconf
 module.exports.isProd = isProd
+module.exports.isTest = isTest

@@ -29,6 +29,10 @@ const loggerFactory = (_conf, _logdir) => {
         })
       ]
     })
+  } else if(_conf.isTest(_conf)) {
+    return new (winston.Logger)({
+      transports: []
+    })
   } else {
     return new (winston.Logger)({
       transports: [

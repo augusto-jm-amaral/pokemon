@@ -1,7 +1,6 @@
 'use strict'
 
-const errors      = require('../../../src/errors.json')
-let   pokemonCtrl = require('../../../src/controllers/pokemon')
+let pokemonCtrl = require('../../../src/controllers/pokemon')
 
 describe('Controllers: Pokemon', async () => {
   
@@ -43,7 +42,7 @@ describe('Controllers: Pokemon', async () => {
 
       await pokemonCtrl.getAll(request, response)
 
-      sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER_ERROR)
+      sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER)
       sinon.assert.calledWith(response.status, 500)
 
     })
@@ -86,7 +85,7 @@ describe('Controllers: Pokemon', async () => {
 
       await pokemonCtrl.create(request, response)
 
-      sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER_ERROR)
+      sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER)
       sinon.assert.calledWith(response.status, 500)
 
     })
