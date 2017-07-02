@@ -10,7 +10,10 @@ const loggerFactory = (_conf, _logdir) => {
   winston.emitErrs = true
   
   if(_conf.isProd(_conf)){
-    fs.existsSync(_logdir) || fs.mkdirSync(_logdir)
+
+    const logPath  = path.join(path.dirname(require.main.filename), _logdir)
+
+    fs.existsSync(logPath) || fs.mkdirSync(logPath)
     
     return new (winston.Logger)({
       transports: [
@@ -19,12 +22,12 @@ const loggerFactory = (_conf, _logdir) => {
         }),
         new (winston.transports.File)({
           name: 'info-file',
-          filename: path.join(_logdir, 'pokeapi_info.log'),
+          filename: path.join(logPath, 'info.log'),
           level: 'info'
         }),
         new (winston.transports.File)({
           name: 'error-file',
-          filename: path.join(_logdir, 'pokeapi_error.log'),
+          filename: path.join(logPath, 'error.log'),
           level: 'error'
         })
       ]

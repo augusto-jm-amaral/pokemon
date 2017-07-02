@@ -15,7 +15,7 @@ if(nconf.get('NODE_ENV') === 'TEST')
     'DB_USER'         : 'test_dbuser',
     'DB_PASS'         : 'test_pass',
     'DB_DIALECT'      : 'sqlite',
-    'LOG_DIR'         : '/var/log',
+    'LOG_DIR'         : '/logs',
     'PAGARME_API_KEY' : 'ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg'
   })
 else
@@ -27,7 +27,7 @@ else
     'DB_USER'         : 'dev_dbuser',
     'DB_PASS'         : 'dev_pass',
     'DB_DIALECT'      : 'sqlite',
-    'LOG_DIR'         : '/var/log',
+    'LOG_DIR'         : '/logs',
     'PAGARME_API_KEY' : 'ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg'
   })
 
