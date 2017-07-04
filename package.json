@@ -4,7 +4,9 @@
   "description": "It's a pokemon API.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "NODE_ENV=PROD pm2 start server.js --name=\"PokemonAPI\"",
+    "monit": "pm2 monit PokemonAPI",
+    "logs": "pm2 logs PokemonAPI",
     "dev": "NODE_ENV=DEV nodemon server.js",
     "test:unit": "NODE_ENV=TEST mocha --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
     "test:unit:watch": "NODE_ENV=TEST mocha --watch --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
