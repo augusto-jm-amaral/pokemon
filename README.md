@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-	Teste para vaga de desenvolvedor back-end na <strong>Pagar.me</strong>
+	Teste para vaga de desenvolvedor back-end da <strong>Pagar.me</strong>
 </p>
 
 ## Conteúdo
@@ -17,6 +17,9 @@
 - [Objetivo](#objetivo)
 - [Estrutura do projeto](#estrutura-do-projeto)
 - [Instalação](#instalação)
+- [Iniciando a aplicação](#iniciando-a-aplicação)
+- [Iniciando os testes](#iniciando-os-testes)
+- [Recursos da aplicação](#recursos-da-aplicação)
 
 ## Objetivo
 
@@ -120,6 +123,99 @@ npm run test:integration:watch
 
 ## Recursos da aplicação
 
+ - **Listar Pokemons** <img width="32" height="32" src="https://cdn0.iconfinder.com/data/icons/pokemon-go-vol-2/135/_Pokedex_tool-128.png">
+
+**Enviar**
+```bash
+GET /pokemons 
+```
+
+**Resposta**
+```bash
+# Status
+200
+# Conteúdo
+[
+    {
+        "uuid": "835aaa34-af79-47f8-b465-1c91da1459ac",
+        "name": "Omastar",
+        "price": 10.5,
+        "stock": 2,
+        "createdAt": "2017-07-03T23:30:24.502Z",
+        "updatedAt": "2017-07-03T23:30:24.502Z"
+    },
+    {
+        "uuid": "6f30d5d6-5298-485a-b089-f9ccf3b6b2d4",
+        "name": "Arcanine",
+        "price": 30.5,
+        "stock": 5,
+        "createdAt": "2017-07-03T23:47:33.864Z",
+        "updatedAt": "2017-07-03T23:47:33.864Z"
+    }
+]
+```
 
 
+  **Adicionar um Pokemon** <img width="32" height="32" src="http://icon-icons.com/icons2/851/PNG/128/hatching_egg_icon-icons.com_67551.png">
 
+**Enviar**
+```bash
+POST /pokemons 
+
+# Conteúdo
+{
+    "name": "Omastar",
+    "price": "10.5",
+    "stock": 2
+}
+```
+
+**Resposta**
+```bash
+# Status
+200
+# Conteúdo
+{
+    "uuid": "835aaa34-af79-47f8-b465-1c91da1459ac",
+    "name": "Omastar",
+    "price": "10.5",
+    "stock": 2,
+    "updatedAt": "2017-07-03T23:30:24.502Z",
+    "createdAt": "2017-07-03T23:30:24.502Z"
+}
+```
+
+
+ - **Comprar um Pokemon** <img width="32" height="32" src="https://vignette2.wikia.nocookie.net/pokemongo/images/8/87/Pok%C3%A9_Ball.png/revision/latest/scale-to-width-down/128?cb=20170620234713">
+
+**Enviar**
+```bash
+POST /pokemons/buy 
+
+# Conteúdo
+{
+	"pokemonUUID": "835aaa34-af79-47f8-b465-1c91da1459ac",
+	"card": {
+    	"number": "4024007138010896",
+        "expiration_date": "1050",
+        "holder_name": "Ash Ketchum",
+        "cvv": "123"
+    },
+    "quantity": 2
+}
+```
+
+**Resposta**
+```bash
+# Status
+200
+# Conteúdo
+{
+    "message": "Successful transaction",
+    "status": "PAID"
+}
+```
+## Autor
+
+| [<img src="https://avatars2.githubusercontent.com/u/10222646?v=3&u=a257e0d8d19c29e534039f88d861abbcd0013eb3&s=115"><br><sub>@augusto-jm-amaral</sub>](https://github.com/augusto-jm-amaral) |
+| :---: |
