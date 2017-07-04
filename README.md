@@ -29,34 +29,34 @@ Não fique preso a apenas refatorar o código, altere o que achar necessário pa
 
 ## Estrutura do projeto
 
-Organização de diretórios do projeto.
+Organização de diretórios do projeto:
 
 ```bash
 pokemon/
-├── src/             # Código da aplicação
-│   ├── config       # Configurações da aplicação
-│   ├── controllers  # Controllers da aplicação
-│   ├── libs         # Itens axiliares
-│   ├── middlewares  # Middlewares da aplicação
-│   ├── models       # Modelos da aplicação
-│   ├── routes       # Rotas do express
-|   ├── validations  # Middlewares de validação
-│   └── app.js       # Instância de Express
+├── src/                 # Código da aplicação
+│   ├── config           # Configurações da aplicação
+│   ├── controllers      # Controllers da aplicação
+│   ├── libs             # Itens axiliares
+│   ├── middlewares      # Middlewares da aplicação
+│   ├── models           # Modelos da aplicação
+│   ├── routes           # Rotas do express
+|   │   └── validations  # Middlewares de validação
+│   └── app.js           # Instância de Express
 │
-├── test/            # Testes
-│   ├── integration/ # Testes de Integração
-│   └── unit/        # Testes de unidade
+├── test/                # Testes
+│   ├── integration/     # Testes de Integração
+│   └── unit/            # Testes de unidade
 │
-└── server.js        # Instância do Servidor
+└── server.js            # Instância do Servidor
 ```
 
 ## Instalação
 
-Instalação do Node.js é necessaria, a versão pode ser 7.6.0 ou superior, apartir desta versão o Node.js da suporte á <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">async functions</a> e ao operador <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await">await</a>, que foram utilizados no projeto.
+A instalação do Node.js é necessária para iniciar a aplicação, e a versão pode ser 7.6 ou superior, a partir desta versão o Node.js da suporte á <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">async functions</a> e ao operador <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await">await</a>, que foram utilizados no projeto.
 
 <a href="https://nodejs.org/en/download/">Instalação Node.js</a>
 
-Após a instalação do Node.js clone o projeto e instale as depêndencias:
+Após a instalação do Node.js clone o projeto e instale as dependências:
 
 ```bash
 
@@ -67,19 +67,19 @@ npm install
 ```
 ## Iniciando a aplicação
 
-- Definição da variáveis de ambiente:
+- Definição das variáveis de ambiente:
 
 <strong>A definição não é obrigatória</strong>, caso não sejam definidas a aplicação vai carregar as definições <a href="https://github.com/augusto-jm-amaral/pokemon/blob/master/src/config/index.js">padrões</a>.
 
-A variáveis são:
+As variáveis são:
 ```bash
-NODE_ENV
-PORT            # Porta utilizada pelo servidor. Default: 3000
+NODE_ENV        # Define o ambiente que a aplicação está. Default: DEV
+PORT            # Porta utilizada pelo servidor. Default: 3000
 DB_NAME         # Nome do banco. Default: dev_dbname
 DB_USER         # Usuário do banco. Default: dev_dbuser
 DB_PASS         # Senha do usuário do banco. Default: dev_pass
 DB_DIALECT      # Dialeto do banco. Default: sqlite
-LOG_DIR         # Pasta para armazena os logs. Default: /logs
+LOG_DIR         # Pasta para armazenar os logs. Default: /logs
 PAGARME_API_KEY # Chave API Pagar.me. Default: ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg
 ```
 
