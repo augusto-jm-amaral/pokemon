@@ -224,14 +224,14 @@ POST /pokemons/buy
 
 # Conteúdo
 {
-	"pokemonUUID": "835aaa34-af79-47f8-b465-1c91da1459ac",
-	"card": {
-    	"number": "4024007138010896",
-        "expiration_date": "1050",
-        "holder_name": "Ash Ketchum",
-        "cvv": "123"
-    },
-    "quantity": 2
+   "pokemonUUID": "835aaa34-af79-47f8-b465-1c91da1459ac",
+   "card": {
+      "number": "4024007138010896",
+      "expiration_date": "1050",
+      "holder_name": "Ash Ketchum",
+      "cvv": "123"
+   },
+   "quantity": 2
 }
 ```
 
