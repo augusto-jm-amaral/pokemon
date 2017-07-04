@@ -56,6 +56,12 @@ A instalação do Node.js é necessária para iniciar a aplicação, e a versão
 
 <a href="https://nodejs.org/en/download/">Instalação Node.js</a>
 
+A instalação do <a href="https://github.com/Unitech/pm2">PM2</a> é necessária para **iniciar a aplicação em produção**.
+
+```bash
+$ npm install pm2 -g
+```
+
 Após a instalação do Node.js clone o projeto e instale as dependências:
 
 ```bash
@@ -83,13 +89,37 @@ LOG_DIR         # Pasta para armazenar os logs. Default: /logs
 PAGARME_API_KEY # Chave API Pagar.me. Default: ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg
 ```
 
-- Inicializando a aplicação em produção:
+- Inicializando a aplicação em **produção**:
 
 ```bash
 npm start
 ```
 
-- Inicializando a aplicação em modo desenvolvimento:
+- Monitorando a aplicação em **produção**:
+
+```bash
+npm run monit
+```
+
+- Visualizando logs gerados pelo PM2 em **produção**:
+
+```bash
+npm run logs # Demais logs na pastas /logs do projeto.
+```
+
+- Reiniciando aplicação em **produção**:
+
+```bash
+npm run restart
+```
+
+- Parando aplicação em **produção**:
+
+```bash
+npm run stop
+```
+
+- Inicializando a aplicação em modo **desenvolvimento**:
 
 ```bash
 npm run dev
