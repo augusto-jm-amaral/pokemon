@@ -1,10 +1,10 @@
 'use strict'
 
-const express = require('express'),
-			path    = require('path'),
-			app     = express(),
+const express 	 = require('express'),
+			path    	 = require('path'),
+			app     	 = express(),
 			{ errors } = require('./libs/errors.js'),
-			logger  = require('./libs/logger.js')
+			logger  	 = require('./libs/logger.js')
 
 require('./middlewares')(app)
 require('./routes')(app)
