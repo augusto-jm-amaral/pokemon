@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		stock: {
 			type: DataTypes.INTEGER,
-			allowNull: true,
+			allowNull: false,
 			defaultValue: 0,
 			min: {
 				args: [0],

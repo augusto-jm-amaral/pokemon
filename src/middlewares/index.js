@@ -11,8 +11,6 @@ const conf        = require('./../config'),
 
 module.exports = (app) => {
 
-	app.set('port', conf.get('PORT'))
-
 	app.use(morgan('combined', {'stream': logger.stream}))
 	app.use(cors())
 	app.use(bodyParser.json())

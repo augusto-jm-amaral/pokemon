@@ -1,7 +1,6 @@
 'use strict'
 
 const express 	 = require('express'),
-			path    	 = require('path'),
 			app     	 = express(),
 			{ errors } = require('./libs/errors.js'),
 			logger  	 = require('./libs/logger.js')

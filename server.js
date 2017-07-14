@@ -1,7 +1,8 @@
 'use strict'
 
 const app 	 = require('./src/app'),
-			port	 = app.get('port'),
+			conf   = require('./src/config'),
+			port	 = conf.get('PORT'),
 			logger = require('./src/libs/logger.js')
 
 module.exports = app.listen(port, () => {

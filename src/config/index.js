@@ -8,7 +8,7 @@ nconf.required(['NODE_ENV'])
 
 // Set dev values
 if(nconf.get('NODE_ENV') === 'TEST')
-  // Dev envs
+  // Test envs
 nconf.defaults({
 	'PORT'            : 3000,
 	'DB_NAME'         : 'test_dbname',

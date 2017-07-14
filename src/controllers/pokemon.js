@@ -63,7 +63,8 @@ const buy = async function(req, res) {
 	}))
 
 	if(errDre) {
-		logger.error(errDre) 
+		logger.error(errDre)
+		await transaction.rollback() 
 		return res.status(errors.INTERNAL_SERVER.status)
 							.json(errors.INTERNAL_SERVER)
 	}
