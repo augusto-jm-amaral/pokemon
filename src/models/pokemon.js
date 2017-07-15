@@ -4,8 +4,7 @@ module.exports = (sequelize, DataTypes) => {
 	return sequelize.define('pokemon', {
 		uuid: {
 			type: DataTypes.UUID,
-			defaultValue: DataTypes.UUIDV4,
-			primaryKey: true
+			defaultValue: DataTypes.UUIDV4
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -16,18 +15,22 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			defaultValue: 0,
-			min: {
-				args: [0],
-				msg: "Must be a non-negative number"
+			validate: {
+				min: {
+					args: [0],
+					msg: "Must be a non-negative number"
+				}
 			}
 		},
 		stock: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			defaultValue: 0,
-			min: {
-				args: [0],
-				msg: "Must be a non-negative number"
+			validate: {
+				min: {
+					args: [0],
+					msg: "Must be a non-negative number"
+				}
 			}
 		}
 	})

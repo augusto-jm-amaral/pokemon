@@ -1,13 +1,14 @@
 'use strict'
 
 const Pokemon = models.pokemon
+const defaultPokemonList = [{
+	name: 'Omastar',
+	price: 70,
+	stock: 5
+}]
+const clone = (obj) => JSON.parse(JSON.stringify(obj))
 
 describe('Routes: Pokemon', async () => {
-	const defaultPokemonList = [{
-		name: 'Omastar',
-		price: 70,
-		stock: 5
-	}]
 
 	const uri = '/pokemons'
 
@@ -21,11 +22,11 @@ describe('Routes: Pokemon', async () => {
 	describe('GET /pokemons', async () => {
 
 		before(async () => {
-			await Pokemon.create(defaultPokemonList[0])
+			await Pokemon.create(clone(defaultPokemonList[0]))
 		})
 
 		it('should return a list of pokemons', async () => {
-			const pokemon = defaultPokemonList[0]
+			const pokemon = clone(defaultPokemonList[0])
 
 			const res = await request.get(uri)
 
@@ -40,7 +41,7 @@ describe('Routes: Pokemon', async () => {
 	describe('POST /pokemons', async () => {
 		
 		it('should return status 200 and created pokemon', async () => {
-			const pokemon = defaultPokemonList[0]
+			const pokemon = clone(defaultPokemonList[0])
 
 			const res = await request.post(uri).send(pokemon)
 
@@ -48,7 +49,26 @@ describe('Routes: Pokemon', async () => {
 			res.body.name.should.be.equal(pokemon.name)
 			res.body.price.should.be.equal(pokemon.price)
 			res.body.stock.should.be.equal(pokemon.stock)
+		})		
+
+		it('should return status 400 when create a pokemon with price negative', async () => {
+			const pokemon = clone(defaultPokemonList[0])
+			pokemon.price = -11
+
+			const res = await request.post(uri).send(pokemon)
+
+			res.status.should.be.equal(400)
 		})
+
+		it('should return status 400 when create a pokemon with stock negative', async () => {
+			const pokemon = clone(defaultPokemonList[0])
+			pokemon.stock = -11
+
+			const res = await request.post(uri).send(pokemon)
+
+			res.status.should.be.equal(400)
+		})
+
 	})
 
 	describe('POST /pokemons/buy', async () => {
@@ -56,24 +76,22 @@ describe('Routes: Pokemon', async () => {
 		let pokemonUUID;
 
 		beforeEach(async () => {
-			const pokemon = await Pokemon.create(defaultPokemonList[0])
+			const pokemon = await Pokemon.create(clone(defaultPokemonList[0]))
 			pokemonUUID = pokemon.dataValues.uuid
 		})
 		
-		it('should to buy a pokemon', async () => {
-			const card = {
-				number: "4024007138010896",
-				expiration_date: "1050",
-				holder_name: "Ash Ketchum",
-				cvv: "123"
-			}
+		// it('should to buy a pokemon', async () => {
+		// 	const card = {
+		// 		number: "4024007138010896",
+		// 		expiration_date: "1050",
+		// 		holder_name: "Ash Ketchum",
+		// 		cvv: "123"
+		// 	}
 
-			const quantity = 3
-
-			const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
-
-			res.status.should.be.equal(200)
-		})
+		// 	const quantity = 3
+		// 	const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
+		// 	res.status.should.be.equal(200)
+		// })
 
 		it('should not buy more pokemon than in stock', async () => {
 			const card = {
@@ -89,6 +107,22 @@ describe('Routes: Pokemon', async () => {
 
 			res.status.should.be.equal(errors.OUT_STOCK.status)
 			res.body.message.should.be.equal(errors.OUT_STOCK.message)
+		})
+
+		it('should return status 400 when buy pokemon with quantity negative', async () => {
+			
+			const card = {
+				number: "4024007138010896",
+				expiration_date: "1050",
+				holder_name: "Ash Ketchum",
+				cvv: "123"
+			}
+
+			const quantity = -99
+
+			const res = await request.post(`${uri}/buy`).send({ pokemonUUID, card, quantity })
+
+			res.status.should.be.equal(400)
 		})
 	})
 })

@@ -32,12 +32,22 @@ const create = async function(req, res) {
 
 const buy = async function(req, res) {
 
+	const [errTra, transaction] = await to(this.database.transaction())
+
+	if(errTra) {
+		logger.error(errTra) 
+		return res.status(errors.INTERNAL_SERVER.status)
+							.json(errors.INTERNAL_SERVER)
+	}
+
 	const [errFind, pokemon] = await to(this.Pokemon.findOne({ 
-		where: { uuid: req.body.pokemonUUID } 
+		where: { uuid: req.body.pokemonUUID },
+		transaction 
 	}))
 
 	if(errFind) {
 		logger.error(errFind) 
+		await transaction.rollback() 
 		return res.status(errors.INTERNAL_SERVER.status)
 							.json(errors.INTERNAL_SERVER)
 	}
@@ -50,13 +60,6 @@ const buy = async function(req, res) {
 		return res.status(errors.OUT_STOCK.status)
 							.json(errors.OUT_STOCK)
 
-	const [errTra, transaction] = await to(this.database.transaction())
-
-	if(errTra) {
-		logger.error(errTra) 
-		return res.status(errors.INTERNAL_SERVER.status)
-							.json(errors.INTERNAL_SERVER)
-	}
 
 	const [errDre] = await to(pokemon.decrement('stock', { 
 		by: req.body.quantity, transaction 

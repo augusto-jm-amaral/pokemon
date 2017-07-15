@@ -1,57 +1,58 @@
 {
-	"name": "pokemon",
-	"version": "0.0.1",
-	"description": "It's a pokemon API.",
-	"main": "server.js",
-	"scripts": {
-		"start": "NODE_ENV=PROD pm2 start server.js --name=\"PokemonAPI\"",
-		"monit": "pm2 monit PokemonAPI",
-		"logs": "pm2 logs PokemonAPI",
-		"stop": "pm2 stop PokemonAPI",
-		"restart": "pm2 restart PokemonAPI",
-		"dev": "NODE_ENV=DEV node server.js",
-		"dev:watch": "NODE_ENV=DEV nodemon server.js",
-		"test:unit": "NODE_ENV=TEST mocha --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
-		"test:unit:watch": "NODE_ENV=TEST mocha --watch --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
-		"test:integration": "NODE_ENV=TEST mocha --opts test/integration/mocha.opts test/integration/**/*.spec.js",
-		"test:integration:watch": "NODE_ENV=TEST mocha --watch --opts test/integration/mocha.opts test/integration/**/*.spec.js"
-	},
-	"author": "@Augusto",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/augusto-jm-amaral/pokemon"
-	},
-	"keywords": [
-		"node",
-		"heroku",
-		"express",
-		"travis",
-		"sqlite"
-	],
-	"dependencies": {
-		"body-parser": "^1.17.2",
-		"compression": "^1.6.2",
-		"cors": "^2.8.3",
-		"express": "^4.15.3",
-		"express-validator": "^3.2.0",
-		"helmet": "^3.6.1",
-		"morgan": "^1.8.2",
-		"nconf": "^0.8.4",
-		"pagarme": "^3.1.0",
-		"sequelize": "^4.2.0",
-		"sqlite3": "^3.1.8",
-		"winston": "^2.3.1"
-	},
-	"devDependencies": {
-		"chai": "^4.0.2",
-		"mocha": "^3.4.2",
-		"nodemon": "^1.11.0",
-		"sinon": "^2.3.6",
-		"supertest": "^3.0.0"
-	},
-	"engines": {
-		"node": "7.6.0",
-		"npm": "4.1.2"
-	}
+  "name": "pokemon",
+  "version": "0.0.1",
+  "description": "It's a pokemon API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=PROD pm2 start server.js --name=\"PokemonAPI\"",
+    "monit": "pm2 monit PokemonAPI",
+    "logs": "pm2 logs PokemonAPI",
+    "stop": "pm2 stop PokemonAPI",
+    "restart": "pm2 restart PokemonAPI",
+    "dev": "NODE_ENV=DEV node server.js",
+    "dev:watch": "NODE_ENV=DEV nodemon server.js",
+    "test:unit": "NODE_ENV=TEST mocha --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
+    "test:unit:watch": "NODE_ENV=TEST mocha --watch --opts test/unit/mocha.opts test/unit/*/**/*.spec.js",
+    "test:integration": "NODE_ENV=TEST mocha --opts test/integration/mocha.opts test/integration/**/*.spec.js",
+    "test:integration:watch": "NODE_ENV=TEST mocha --watch --opts test/integration/mocha.opts test/integration/**/*.spec.js"
+  },
+  "author": "@Augusto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augusto-jm-amaral/pokemon"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express",
+    "travis",
+    "sqlite"
+  ],
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "compression": "^1.6.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "express-validator": "^3.2.0",
+    "helmet": "^3.6.1",
+    "morgan": "^1.8.2",
+    "nconf": "^0.8.4",
+    "pagarme": "^3.1.1",
+    "sequelize": "^4.2.0",
+    "sqlite3": "^3.1.8",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
+    "sinon": "^2.3.6",
+    "supertest": "^3.0.0"
+  },
+  "engines": {
+    "node": "7.6.0",
+    "npm": "4.1.2"
+  }
 }

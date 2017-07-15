@@ -15,9 +15,11 @@ const create = async function(req, res, next) {
 
 	req.checkBody('price', validations.EMPTY).notEmpty()
 	req.checkBody('price', validations.DECIMAL).isDecimal()
+	req.checkBody('price', validations.NEGATIVE).gte(0)
 
 	req.checkBody('stock', validations.EMPTY).notEmpty()
 	req.checkBody('stock', validations.INTEGER).isInt()
+	req.checkBody('stock', validations.NEGATIVE).gte(0)
 
 	const [err, result] = await to(req.getValidationResult())
 
@@ -55,6 +57,7 @@ const buy = async function(req, res, next) {
 
 	req.checkBody('quantity', validations.EMPTY).notEmpty()
 	req.checkBody('quantity', validations.INTEGER).isInt()
+	req.checkBody('quantity', validations.NEGATIVE).gte(0)
 
 	const [err, result] = await to(req.getValidationResult())
 

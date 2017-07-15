@@ -34,7 +34,12 @@ const loggerFactory = (_conf, _logdir) => {
 		})
 	} else if(_conf.isTest(_conf)) {
 		return new (winston.Logger)({
-			transports: []
+			transports: [
+			new (winston.transports.Console)({
+				colorize: true,
+				level: 'error'
+			})
+			]
 		})
 	} else {
 		return new (winston.Logger)({

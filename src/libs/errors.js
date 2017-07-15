@@ -5,7 +5,8 @@ const validations = {
 	DECIMAL: 'The value is not decimal',
 	INTEGER: 'Value is not integer',
 	UUID: 'Invalid ID',
-	CARD: 'Invalid card number'
+	CARD: 'Invalid card number',
+	NEGATIVE: 'Value in not positive'
 }
 
 const errors = {
