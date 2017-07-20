@@ -1,44 +1,61 @@
 'use strict'
 
-const logger                  = require('./../libs/logger.js'),
-			to                      = require('./../libs/to.js'),
-			pagarme                 = require('./../libs/pagarme.js'),
-			{ errors, validations } = require('./../libs/errors.js'),
-			{ pokemon, database }   = require('./../models'),
-			Pokemon                 = pokemon
+const logger                  										= require('./../libs/logger.js'),
+			to                     											= require('./../libs/to.js'),
+			pagarme                 										= require('./../libs/pagarme.js'),
+			{ errors, validations, customErrorFactory } = require('./../libs/errors.js'),
+			{ pokemon, database }   										= require('./../models'),
+			Pokemon                 										= pokemon
 
-const getAll = async function(req, res) {
+const getAll = async function(req, res, next) {
 	const [err, pokemons] = await to(this.Pokemon.findAll())
 
 	if(pokemons) 
 		return res.json(pokemons)
 
-	logger.error(err)
-
-	return res.status(errors.INTERNAL_SERVER.status)
-						.json(errors.INTERNAL_SERVER)
+	next(err)
 }
 
-const create = async function(req, res) {
-	const [err, pokemon] = await to(this.Pokemon.create(req.body))
-
-	if(pokemon)
-		return res.json(pokemon.dataValues)
-
-	logger.error(err)
-	return res.status(errors.INTERNAL_SERVER.status)
-						.json(errors.INTERNAL_SERVER)
-}
-
-const buy = async function(req, res) {
+const create = async function(req, res, next) {
 
 	const [errTra, transaction] = await to(this.database.transaction())
 
-	if(errTra) {
-		logger.error(errTra) 
-		return res.status(errors.INTERNAL_SERVER.status)
-							.json(errors.INTERNAL_SERVER)
+	if(errTra) return next(errTra)
+
+	const [errFind, pokemon] = await to(this.Pokemon.findOne({
+		where: { name: req.body.name },
+		transaction
+	}))
+
+	if(errFind) {
+		transaction.rollback() 
+		return next(errFind)
 	}
+
+	if(pokemon){
+		transaction.rollback() 
+		return next(customErrorFactory(errors.PRODUCT_EXISTS))
+	} 
+
+	const [err, pokemonCreated] = await to(this.Pokemon.create(req.body, { transaction }))
+
+	if(err) return next(err)
+
+	if(pokemonCreated){
+		const [errCommit, successCommit] =  await to(transaction.commit())
+
+		if(errCommit) return next(errCommit)
+
+		return res.json(pokemonCreated.dataValues)
+	}
+
+}
+
+const buy = async function(req, res, next) {
+
+	const [errTra, transaction] = await to(this.database.transaction())
+
+	if(errTra) return next(errTra);
 
 	const [errFind, pokemon] = await to(this.Pokemon.findOne({ 
 		where: { uuid: req.body.pokemonUUID },
@@ -46,30 +63,23 @@ const buy = async function(req, res) {
 	}))
 
 	if(errFind) {
-		logger.error(errFind) 
-		await transaction.rollback() 
-		return res.status(errors.INTERNAL_SERVER.status)
-							.json(errors.INTERNAL_SERVER)
+		transaction.rollback() 
+		return next(errFind) 
 	}
 
 	if(!pokemon) 
-		return res.status(errors.PRODUCT_NFOUND.status)
-							.json(errors.PRODUCT_NFOUND)
+		return next(customErrorFactory(errors.PRODUCT_NFOUND))
 
 	if(pokemon.stock < req.body.quantity)
-		return res.status(errors.OUT_STOCK.status)
-							.json(errors.OUT_STOCK)
-
+		return next(customErrorFactory(errors.OUT_STOCK)) 
 
 	const [errDre] = await to(pokemon.decrement('stock', { 
 		by: req.body.quantity, transaction 
 	}))
 
 	if(errDre) {
-		logger.error(errDre)
-		await transaction.rollback() 
-		return res.status(errors.INTERNAL_SERVER.status)
-							.json(errors.INTERNAL_SERVER)
+		transaction.rollback() 
+		return next(errDre)
 	}
 
 	const amount = pagarme.amount(pokemon.price, req.body.quantity)
@@ -87,31 +97,31 @@ const buy = async function(req, res) {
 	) 
 
 	if(errPagar){
-		logger.error(errPagar) 
-		await transaction.rollback()
-		return res.status(errors.INTERNAL_SERVER.status)
-							.json(errors.INTERNAL_SERVER)
+		transaction.rollback()
+		return next(errPagar) 
 	}
 
 	if(pagarme.isPaid(pagarmeTransaction)){
 
-		await transaction.commit()
+		const [errCommit, successCommit] = await to(transaction.commit())
+
+		if(errCommit) return next(errCommit)
+
 		res.status(200).json({
 			message: 'Successful transaction',
-			status: 'PAID'
+			status: 'PAID',
+			code: 999
 		})
 
 	} else {
 
 		const transactionFailed = new Error(errors.TRANSACTION_FAILED.message)
 		transactionFailed.transaction = pagarmeTransaction
-
 		logger.error(transactionFailed)
 
-		await transaction.rollback()
+		transaction.rollback()
 
-		return res.status(errors.TRANSACTION_FAILED.status)
-							.json(errors.TRANSACTION_FAILED)
+		return next(customErrorFactory(errors.TRANSACTION_FAILED))
 	}
 }
 

@@ -32,12 +32,24 @@ const errors = {
 	},
 	PRODUCT_NFOUND: {
 		'message': 'Product not found',
-		'code': 4,
+		'code': 5,
 		'status': 404
+	},
+	PRODUCT_EXISTS: {
+		'message': 'This product already exists',
+		'code': 6,
+		'status': 400
 	}
+}
+
+const customErrorFactory = (err) => {
+	const newError = new Error(err.message)
+	newError.type = err
+	return newError
 }
 
 module.exports = {
 	validations,
-	errors
+	errors,
+	customErrorFactory
 }

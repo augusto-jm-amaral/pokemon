@@ -39,6 +39,13 @@ describe('Routes: Pokemon', async () => {
 	})
 
 	describe('POST /pokemons', async () => {
+
+		afterEach(async () => {
+			await Pokemon.destroy({
+				where: {},
+				truncate: true
+			})
+		})
 		
 		it('should return status 200 and created pokemon', async () => {
 			const pokemon = clone(defaultPokemonList[0])
@@ -64,6 +71,15 @@ describe('Routes: Pokemon', async () => {
 			const pokemon = clone(defaultPokemonList[0])
 			pokemon.stock = -11
 
+			const res = await request.post(uri).send(pokemon)
+
+			res.status.should.be.equal(400)
+		})
+
+		it('should return status 400 when create a pokemon with existing name', async () => {
+			const pokemon = clone(defaultPokemonList[0])
+
+			await request.post(uri).send(pokemon)
 			const res = await request.post(uri).send(pokemon)
 
 			res.status.should.be.equal(400)

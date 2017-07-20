@@ -9,8 +9,16 @@ require('./middlewares')(app)
 require('./routes')(app)
 
 app.use((err, req, res, next) => {
+
 	logger.error(err)
-	res.status(err.status || errors.INTERNAL_SERVER.status).json(errors.INTERNAL_SERVER)
+
+	if(err.type){
+		res.status(err.type.status).json(err.type)
+		
+	}else{
+		res.status(errors.INTERNAL_SERVER.status).json(errors.INTERNAL_SERVER)
+		
+	}
 })
 
 module.exports = app 

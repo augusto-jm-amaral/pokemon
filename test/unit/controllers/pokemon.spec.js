@@ -28,66 +28,63 @@ describe('Controllers: Pokemon', async () => {
 
 		})
 
-		it('should return status 500 when error occurs', async () => {
+		it('should call next when error occurs', async () => {
 
 			const request = {}
-			const response = {
-				status: sinon.stub(),
-				json: sinon.spy()
-			}
+			const response = {}
+			const next = sinon.spy()
+			const error = new Error('error')
 
-			response.status.withArgs(500).returns(response)
 			pokemonCtrl.Pokemon.findAll = sinon.stub()
-			pokemonCtrl.Pokemon.findAll.withArgs().rejects({message: 'Error'})
+			pokemonCtrl.Pokemon.findAll.withArgs().rejects(error)
 
-			await pokemonCtrl.getAll(request, response)
+			await pokemonCtrl.getAll(request, response, next)
 
-			sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER)
-			sinon.assert.calledWith(response.status, 500)
-
+			sinon.assert.calledWith(next, error)
 		})
 	})
 
 	describe('create() pokemons', async () => {
 
-		it('should return a list of pokemons', async () => {
+		it('should return create a pokemon', async () => {
+			
 			const pokemonModel = defaultPokemonList[0]
+
 			const request = { 
 				body: pokemonModel
 			}
+			const next  = () => {}
 			const response = {
 				json: sinon.spy()
 			}
 
+			pokemonCtrl.Pokemon.findOne = sinon.stub()
 			pokemonCtrl.Pokemon.create = sinon.stub()
 			pokemonCtrl.Pokemon.create.withArgs(pokemonModel).resolves({dataValues: pokemonModel})
+			pokemonCtrl.Pokemon.findOne.resolves()
 
-			await pokemonCtrl.create(request, response)
+			await pokemonCtrl.create(request, response, next)
 
 			sinon.assert.calledWith(response.json, pokemonModel)
 
 		})
 
-		it('should return status 500 when error occurs', async () => {
+		it('should call next when error occurs', async () => {
 
 			const pokemonModel = defaultPokemonList[0]
-			const request = { 
-				body: pokemonModel
-			}
-			const response = {
-				status: sinon.stub(),
-				json: sinon.spy()
-			}
+			const request = { body: pokemonModel }
+			const response = {}
+			const next = sinon.spy()
+			const error = new Error('Error')
 
-			response.status.withArgs(500).returns(response)
 			pokemonCtrl.Pokemon.create = sinon.stub()
-			pokemonCtrl.Pokemon.create.withArgs(pokemonModel).rejects({message: 'Error'})
+			pokemonCtrl.Pokemon.findOne = sinon.stub()
+			pokemonCtrl.Pokemon.findOne.resolves()
+			pokemonCtrl.Pokemon.create.withArgs(pokemonModel).rejects(error)
 
-			await pokemonCtrl.create(request, response)
+			await pokemonCtrl.create(request, response, next)
 
-			sinon.assert.calledWith(response.json, errors.INTERNAL_SERVER)
-			sinon.assert.calledWith(response.status, 500)
-
+			sinon.assert.calledWith(next, error)
 		})
 	})
 })
